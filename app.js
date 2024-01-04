@@ -276,7 +276,7 @@ app.post('/api/connexion', function(req, res){
             maxAge: 1000 * 60 * 60 *24 * 30, //30 jours en ms
             httpOnly: true,
         });
-        res.redirect(process.env.FRONTEND_URL);
+        res.redirect(process.env.FRONTEND_URL + "/allblogs");
         // res.json("LOGGED IN");
 
         // res.render('UserPage', {data : user})
