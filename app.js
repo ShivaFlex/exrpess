@@ -18,7 +18,7 @@ app.set('view engine', 'ejs');
 
 // Accès aux données du host:5000
 const cors = require('cors');
-app.use(cors({credentials: true, origin: "http://localhost:3000"}));
+app.use(cors({credentials: true, origin: process.env.FRONTEND_URL}));
 
 //Method put et delete pour express
 const methodOverride = require('method-override');
@@ -118,7 +118,7 @@ app.post('/submit-contact', function(req, res){
     Data.save()
     .then(()=>{
         console.log("Data saved successfully");
-        res.redirect('http://localhost:3000/allblogs');
+        res.redirect(process.env.FRONTEND_URL + '/allblogs');
     })
     .catch(err=>{
         console.log(err);
@@ -135,7 +135,7 @@ app.put('/edit/:id', function(req, res){
     Contact.updateOne({_id : req.params.id}, {$set: Data})
     .then(()=>{
         console.log("Data updated successfully");
-        res.redirect('/'); 
+        res.redirect(process.env.FRONTEND_URL ); 
     })
     .catch(err=>{console.log(err);});
 })
@@ -215,7 +215,7 @@ app.put('/editblog/:id', function(req, res){
     }, {$set:Data})
     .then(()=>{
         console.log('updated');
-        res.redirect('http://localhost:3000/allblogs')
+        res.redirect(process.env.FRONTEND_URL + '/allblogs')
     })
     .catch((err)=>{
         console.log(err);
@@ -226,7 +226,7 @@ app.delete('/deleteblog/:id', function(req, res) {
     Blog.findOneAndDelete({_id:req.params.id})
     .then(()=>{
         console.log("Blog deleted");
-        res.redirect('http://localhost:3000/allblogs');
+        res.redirect(process.env.FRONTEND_URL + '/allblogs');
     })
     .catch((err)=>{console.log(err);})
 });
@@ -276,7 +276,7 @@ app.post('/api/connexion', function(req, res){
             maxAge: 1000 * 60 * 60 *24 * 30, //30 jours en ms
             httpOnly: true,
         });
-        res.redirect("http://localhost:3000/allblogs");
+        res.redirect(process.env.FRONTEND_URL);
         // res.json("LOGGED IN");
 
         // res.render('UserPage', {data : user})
@@ -288,7 +288,7 @@ app.post('/api/connexion', function(req, res){
 
 app.get("/logout", (req, res)=>{
     res.clearCookie("access-token");
-    res.redirect("http://localhost:3000/")
+    res.redirect(process.env.FRONTEND_URL)
 })
 
 app.get("/getJwt", (req, res)=>{
